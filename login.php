@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if(isset($_SESSION["user"])) {
+        header("Location: user_profile.php");
+    } 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +20,7 @@
         Login
     </h1>
 
+    <!-- Login form -->
     <form action="login_validation.php" method="post" novalidate>
         <div class="form-group">
             <label >Email</label>

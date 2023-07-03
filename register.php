@@ -13,9 +13,9 @@
       Sign Up
     </h1>
 
-
+    <!-- Register form -->
     <div class="registerForm">
-        <form action="registration_validation.php" method="post" novalidate>
+        <form action="registration_validation.php" method="post" autocomplete="off" novalidate>
            <div class="form-group">
                  <label >Fullname</label>
                  <input type="text" class="form-control" name="fullname">
@@ -23,24 +23,28 @@
             </div>
             <div class="form-group">
                  <label >Email</label>
-                 <input type="emamil" class="form-control" name="email">
+                 <input type="email" class="form-control" name="email" autocomplete="off">
+                 <span></span>
+            </div>
+            <div class="form-group">
+                 <label >Role</label>
+                 <input type="text" class="form-control" name="role">
                  <span></span>
             </div>
             <div class="form-group">
                  <label >Password</label>
-                 <input type="password" class="form-control" name="password">
+                 <input type="password" class="form-control" name="password" autocomplete="off">
                  <span></span>
             </div>
             <div class="form-group">
                  <label >Repeat Password</label>
-                 <input type="password" class="form-control" name="repeat_password">
+                 <input type="password" class="form-control" name="repeat_password" autocomplete="off">
                  <span></span>
             </div>
             <div class="form-btn">
                  <input type="submit" class="btn" value="sign up" name="submit">
             </div>
         </form>
-
     </div>
     
 </body>
