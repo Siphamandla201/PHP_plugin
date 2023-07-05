@@ -2,52 +2,57 @@
 
 $email = $_POST["email"];
 $password = $_POST["password"];
+$latitude = $_POST["latitude"];
+$longitude = $_POST["longitude"];
 $submit = $_POST["login"];
 $errors = array();
 
+// Check if the login form is submitted
 if (isset($submit)) {
-    // Check if the login form is submitted
     
-    require_once "db_config.php";
     // Include the database configuration file
+    require_once "db_config.php";
     
-    $sql = "SELECT * FROM users WHERE Email  = '$email' ";
     // SQL query to select user with the provided email
+    $sql = "SELECT * FROM users WHERE Email = '$email'";
     
-    $result = mysqli_query($conn, $sql);
     // Execute the query
+    $result = mysqli_query($conn, $sql);
     
-    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
     // Fetch the user details from the query result
+    $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
     
+    // If a user with the provided email is found in the database
     if ($user) {
-        // If a user with the provided email is found in the database
         
+        // Verify the provided password with the stored hashed password
         if (password_verify($password, $user["Password"])) {
-            // Verify the provided password with the stored hashed password
         
-            session_start();
             // Start a new session
+            session_start();
             
-            $_SESSION["user"] = $user["Email"];
             // Set a session variable to indicate successful login
+            $_SESSION["user"] = $user["Email"];
+            
+            // Insert the clock in details into the login_table
+            $ClockInId = $user["ClockIn_Id"];
+            $userId = $user["User_Id"];
+            $date = date("Y-m-d");
+            $timestamp = date("Y-m-d H:i:s");
+            $insertQuery = "INSERT INTO clockin (ClockIn_Id, User_Id, Latitude, Longitude, Date, timestamp) VALUES ('$ClockInId', '$userId', '$latitude', '$longitude', '$date', '$timestamp')";
+            mysqli_query($conn, $insertQuery);
 
-            header("Location: user_profile.php");
             // Redirect the user to the user_profile.php page
+            header("Location: user_profile.php");
             
             die();
-            // Insert the user's id and timestamp into the login_table
-            // $userId = $user["User_Id"]; // Assuming the ID column name is "ID"
-            // $timestamp = date("Y-m-d H:i:s"); // Current timestamp
-            // $insertQuery = "INSERT INTO login (User_Id, timestamp) VALUES ('$userId', '$timestamp')";
-            // mysqli_query($conn, $insertQuery);
         } else {
-            echo "<p>Invalid password</p>";
             // Display an error message for invalid password
+            echo "<p>Invalid password</p>";
         }
     } else {
-        echo "<p>Email does not exist</p>";
         // Display an error message for non-existent email
+        echo "<p>Email does not exist</p>";
     }
 }
 ?>
